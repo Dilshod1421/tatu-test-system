@@ -2,11 +2,13 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Subject } from './models/subject.model';
 import { SubjectDto } from './dto/subject.dto';
+import { TestGroupService } from 'src/test-group/test-group.service';
 
 @Injectable()
 export class SubjectService {
   constructor(
     @InjectModel(Subject) private subjectRepository: typeof Subject,
+    private readonly testGroupService: TestGroupService,
   ) {}
 
   async create(subjectDto: SubjectDto): Promise<object> {
@@ -100,6 +102,7 @@ export class SubjectService {
       if (!subject) {
         throw new BadRequestException('Fan topilmadi!');
       }
+      await this.testGroupService.delete(id);
       await this.subjectRepository.destroy({ where: { id } });
       return { message: "Fan ro'yxatdan o'chirildi" };
     } catch (error) {

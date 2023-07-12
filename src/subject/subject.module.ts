@@ -6,10 +6,12 @@ import { Subject } from './models/subject.model';
 import { Staff } from 'src/staff/models/staff.model';
 import { StaffSubject } from './models/staff-subject.model';
 import { JwtModule } from '@nestjs/jwt';
+import { TestGroupModule } from 'src/test-group/test-group.module';
 
 @Module({
   imports: [
     SequelizeModule.forFeature([Subject, Staff, StaffSubject]),
+    TestGroupModule,
     JwtModule.register({}),
   ],
   controllers: [SubjectController],

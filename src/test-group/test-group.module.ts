@@ -19,5 +19,6 @@ import { TestTimeModule } from 'src/test-time/test-time.module';
   ],
   controllers: [TestGroupController],
   providers: [TestGroupService],
+  exports: [TestGroupService],
 })
 export class TestGroupModule {}

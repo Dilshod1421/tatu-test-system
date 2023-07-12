@@ -120,15 +120,17 @@ export class TestTimeService {
     }
   }
 
-  async delete(test_group_id: number): Promise<void> {
+  async delete(test_group: any): Promise<void> {
     try {
       const test_times = await this.testTimeRepository.findAll({
-        where: { test_group_id },
+        where: { test_group_id: test_group },
       });
       if (!test_times.length) {
         throw new BadRequestException('Test vaqti topilmadi!');
       }
-      await this.testTimeRepository.destroy({ where: { test_group_id } });
+      await this.testTimeRepository.destroy({
+        where: { test_group_id: test_group },
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }

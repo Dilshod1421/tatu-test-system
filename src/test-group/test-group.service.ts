@@ -89,4 +89,21 @@ export class TestGroupService {
       throw new BadRequestException(error.message);
     }
   }
+
+  async delete(subject_id: number): Promise<void> {
+    try {
+      const test_groups = await this.testGroupRepository.findAll({
+        where: { subject_id },
+      });
+      if (!test_groups.length) {
+        throw new BadRequestException('Test topilmadi!');
+      }
+      await this.questionService.delete(test_groups);
+      await this.testSubmitService.delete(test_groups);
+      await this.testTimeService.delete(test_groups);
+      await this.testGroupRepository.destroy({ where: { subject_id } });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
 }

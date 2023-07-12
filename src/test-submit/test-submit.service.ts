@@ -117,15 +117,17 @@ export class TestSubmitService {
     }
   }
 
-  async delete(test_group_id: number): Promise<void> {
+  async delete(test_group: any): Promise<void> {
     try {
       const test_submits = await this.testSubmitRepository.findAll({
-        where: { test_group_id },
+        where: { test_group_id: test_group },
       });
       if (!test_submits.length) {
         throw new BadRequestException("Test topshirig'i topilmadi!");
       }
-      await this.testSubmitRepository.destroy({ where: { test_group_id } });
+      await this.testSubmitRepository.destroy({
+        where: { test_group_id: test_group },
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }

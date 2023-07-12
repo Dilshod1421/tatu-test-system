@@ -85,10 +85,10 @@ export class QuestionService {
     }
   }
 
-  async delete(test_group_id: number): Promise<void> {
+  async delete(test_group: any): Promise<void> {
     try {
       const questions = await this.questionRepository.findAll({
-        where: { test_group_id },
+        where: { test_group_id: test_group },
       });
       if (!questions.length) {
         throw new BadRequestException(
@@ -99,7 +99,9 @@ export class QuestionService {
         await this.answerService.delete(i.id);
         await this.testResultService.delete(i.id);
       }
-      await this.questionRepository.destroy({ where: { test_group_id } });
+      await this.questionRepository.destroy({
+        where: { test_group_id: test_group },
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
