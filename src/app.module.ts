@@ -30,7 +30,14 @@ import { TestSubmitModule } from './test-submit/test-submit.module';
       database: process.env.POSTGRES_DB,
       models: [],
       autoLoadModels: true,
-      logging: true,
+      logging: false,
+      ssl: true,
+      dialectOptions: {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false,
+        },
+      },
     }),
     StaffModule,
     FilesModule,
