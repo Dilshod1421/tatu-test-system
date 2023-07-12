@@ -42,8 +42,8 @@ export class TestTimeController {
   @ApiOperation({ summary: 'get test times by student id' })
   @UseGuards(AuthGuard)
   @Get('student/:id')
-  findByStudentId(@Param('id1') id1: string) {
-    return this.testTimeService.findByStudentId(id1);
+  findByStudentId(@Param('id') id: string) {
+    return this.testTimeService.findByStudentId(id);
   }
 
   @ApiOperation({ summary: 'get test time by id' })
