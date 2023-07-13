@@ -37,7 +37,7 @@ export class TestGroupController {
 
   @ApiOperation({ summary: 'get all test groups' })
   @UseGuards(AuthGuard)
-  @Get()
+  @Get('page')
   paginate(@Query('page') page: number) {
     return this.testGroupService.paginate(page);
   }
