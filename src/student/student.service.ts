@@ -130,6 +130,35 @@ export class StudentService {
     }
   }
 
+  async paginate(page: number): Promise<object> {
+    try {
+      page = Number(page);
+      const limit = 10;
+      const offset = (page - 1) * limit;
+      const staffs = await this.studentRepository.findAll({
+        include: { all: true },
+        offset,
+        limit,
+      });
+      const total_count = await this.studentRepository.count();
+      const total_pages = Math.ceil(total_count / limit);
+      const res = {
+        status: 200,
+        data: {
+          records: staffs,
+          pagination: {
+            currentPage: page,
+            total_pages,
+            total_count,
+          },
+        },
+      };
+      return res;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async findById(id: string): Promise<Student> {
     try {
       const student = await this.studentRepository.findOne({

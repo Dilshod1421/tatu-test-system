@@ -5,6 +5,10 @@ import { TestGroupDto } from './dto/test-group.dto';
 import { Answer } from 'src/answer/models/answer.model';
 import { Question } from 'src/question/models/question.model';
 import { Subject } from 'src/subject/models/subject.model';
+import { TestResult } from 'src/test-result/models/test-result.model';
+import { TestTime } from 'src/test-time/models/test-time.model';
+import { Student } from 'src/student/models/student.model';
+import { TestSubmit } from 'src/test-submit/models/test-submit.model';
 
 @Injectable()
 export class TestGroupService {
@@ -27,7 +31,13 @@ export class TestGroupService {
   async findAll(): Promise<TestGroup[]> {
     try {
       const test_groups = await this.testGroupRepository.findAll({
-        include: [{ model: Subject }, { model: Question, include: [Answer] }],
+        include: [
+          { model: Subject },
+          { model: Question, include: [Answer] },
+          { model: TestResult },
+          { model: TestSubmit, include: [Student] },
+          { model: TestTime },
+        ],
       });
       if (!test_groups.length) {
         throw new BadRequestException("Testlar ro'yxati bo'sh!");
@@ -38,10 +48,51 @@ export class TestGroupService {
     }
   }
 
+  async paginate(page: number): Promise<object> {
+    try {
+      page = Number(page);
+      const limit = 10;
+      const offset = (page - 1) * limit;
+      const staffs = await this.testGroupRepository.findAll({
+        include: [
+          { model: Subject },
+          { model: Question, include: [Answer] },
+          { model: TestResult },
+          { model: TestSubmit, include: [Student] },
+          { model: TestTime },
+        ],
+        offset,
+        limit,
+      });
+      const total_count = await this.testGroupRepository.count();
+      const total_pages = Math.ceil(total_count / limit);
+      const res = {
+        status: 200,
+        data: {
+          records: staffs,
+          pagination: {
+            currentPage: page,
+            total_pages,
+            total_count,
+          },
+        },
+      };
+      return res;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async findOne(id: number): Promise<TestGroup> {
     try {
       const test_group = await this.testGroupRepository.findByPk(id, {
-        include: [{ model: Subject }, { model: Question, include: [Answer] }],
+        include: [
+          { model: Subject },
+          { model: Question, include: [Answer] },
+          { model: TestResult },
+          { model: TestSubmit, include: [Student] },
+          { model: TestTime },
+        ],
       });
       if (!test_group) {
         throw new BadRequestException('Test topilmadi!');

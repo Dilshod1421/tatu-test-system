@@ -10,6 +10,7 @@ import {
   UploadedFile,
   Res,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -57,6 +58,13 @@ export class StudentController {
   @Get()
   findAll() {
     return this.studentService.findAll();
+  }
+
+  @ApiOperation({ summary: 'pagination students' })
+  @UseGuards(AuthGuard)
+  @Get('page')
+  paginate(@Query('page') page: number) {
+    return this.studentService.paginate(page);
   }
 
   @ApiOperation({ summary: 'get student by email' })

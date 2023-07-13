@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { SubjectService } from './subject.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -32,6 +33,13 @@ export class SubjectController {
   @Get()
   findAll() {
     return this.subjectService.findAll();
+  }
+
+  @ApiOperation({ summary: 'get all subjects' })
+  @UseGuards(AuthGuard)
+  @Get('page')
+  paginate(@Query('page') page: number) {
+    return this.subjectService.paginate(page);
   }
 
   @ApiOperation({ summary: 'get subject by title' })

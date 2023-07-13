@@ -10,6 +10,7 @@ import {
 import { Question } from 'src/question/models/question.model';
 import { Subject } from 'src/subject/models/subject.model';
 import { TestResult } from 'src/test-result/models/test-result.model';
+import { TestSubmit } from 'src/test-submit/models/test-submit.model';
 import { TestTime } from 'src/test-time/models/test-time.model';
 
 interface TestGroupAttributes {
@@ -59,6 +60,12 @@ export class TestGroup extends Model<TestGroup, TestGroupAttributes> {
     hooks: true,
   })
   test_results: TestResult[];
+
+  @HasMany(() => TestSubmit, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
+  test_submits: TestSubmit[];
 
   @HasMany(() => TestTime, {
     onDelete: 'CASCADE',

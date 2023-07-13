@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { TestGroupService } from './test-group.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -32,6 +33,13 @@ export class TestGroupController {
   @Get()
   findAll() {
     return this.testGroupService.findAll();
+  }
+
+  @ApiOperation({ summary: 'get all test groups' })
+  @UseGuards(AuthGuard)
+  @Get()
+  paginate(@Query('page') page: number) {
+    return this.testGroupService.paginate(page);
   }
 
   @ApiOperation({ summary: 'get test group by id' })

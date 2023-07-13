@@ -10,6 +10,7 @@ import {
   Res,
   UseGuards,
   UploadedFile,
+  Query,
 } from '@nestjs/common';
 import { StaffService } from './staff.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -103,6 +104,14 @@ export class StaffController {
   @Get()
   findAll() {
     return this.staffService.findAll();
+  }
+
+  @ApiOperation({ summary: 'pagination staffs' })
+  @UseGuards(TeacherGuard)
+  @UseGuards(AuthGuard)
+  @Get('page')
+  paginate(@Query('page') page: number) {
+    return this.staffService.paginate(page);
   }
 
   @ApiOperation({ summary: 'get all staffs no guard' })

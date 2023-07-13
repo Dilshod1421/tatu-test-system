@@ -41,6 +41,35 @@ export class SubjectService {
     }
   }
 
+  async paginate(page: number): Promise<object> {
+    try {
+      page = Number(page);
+      const limit = 10;
+      const offset = (page - 1) * limit;
+      const staffs = await this.subjectRepository.findAll({
+        include: { all: true },
+        offset,
+        limit,
+      });
+      const total_count = await this.subjectRepository.count();
+      const total_pages = Math.ceil(total_count / limit);
+      const res = {
+        status: 200,
+        data: {
+          records: staffs,
+          pagination: {
+            currentPage: page,
+            total_pages,
+            total_count,
+          },
+        },
+      };
+      return res;
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
   async findById(id: number): Promise<Subject> {
     try {
       const subject = await this.subjectRepository.findByPk(id, {

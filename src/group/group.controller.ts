@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { GroupService } from './group.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -32,6 +33,13 @@ export class GroupController {
   @Get()
   findAll() {
     return this.groupService.findAll();
+  }
+
+  @ApiOperation({ summary: 'pagination groups' })
+  @UseGuards(AuthGuard)
+  @Get('page')
+  paginate(@Query('page') page: number) {
+    return this.groupService.paginate(page);
   }
 
   @ApiOperation({ summary: 'get group by name' })
