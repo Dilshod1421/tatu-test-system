@@ -73,20 +73,4 @@ export class AnswerService {
       throw new BadRequestException(error.message);
     }
   }
-
-  async delete(question_id: number) {
-    try {
-      const answer = await this.answerRepository.findAll({
-        where: { question_id },
-      });
-      if (!answer.length) {
-        throw new BadRequestException(
-          'Ushbu savolga tegishli javoblar topilmadi!',
-        );
-      }
-      await this.answerRepository.destroy({ where: { question_id } });
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
 }

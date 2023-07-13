@@ -12,13 +12,9 @@ import { TestTimeModule } from 'src/test-time/test-time.module';
 @Module({
   imports: [
     SequelizeModule.forFeature([TestGroup, Subject]),
-    QuestionModule,
-    TestSubmitModule,
-    TestTimeModule,
     JwtModule.register({}),
   ],
   controllers: [TestGroupController],
   providers: [TestGroupService],
-  exports: [TestGroupService],
 })
 export class TestGroupModule {}

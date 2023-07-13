@@ -2,15 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Question } from './models/question.model';
 import { QuestionDto } from './dto/question.dto';
-import { AnswerService } from 'src/answer/answer.service';
-import { TestResultService } from 'src/test-result/test-result.service';
 
 @Injectable()
 export class QuestionService {
   constructor(
     @InjectModel(Question) private questionRepository: typeof Question,
-    private readonly answerService: AnswerService,
-    private readonly testResultService: TestResultService,
   ) {}
 
   async create(questionDto: QuestionDto): Promise<object> {
@@ -73,35 +69,9 @@ export class QuestionService {
 
   async remove(id: number): Promise<object> {
     try {
-      const question = await this.questionRepository.findByPk(id);
-      if (!question) {
-        throw new BadRequestException('Savol topilmadi!');
-      }
-      await this.answerService.delete(id);
-      await this.questionRepository.destroy({ where: { id } });
+      const question = await this.findOne(id);
+      question.destroy();
       return { message: "Savol ro'yxatdan o'chirildi", question };
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
-
-  async delete(test_group: any): Promise<void> {
-    try {
-      const questions = await this.questionRepository.findAll({
-        where: { test_group_id: test_group },
-      });
-      if (!questions.length) {
-        throw new BadRequestException(
-          'Ushbu testga tegishli savollar topilmadi!',
-        );
-      }
-      for (let i of questions) {
-        await this.answerService.delete(i.id);
-        await this.testResultService.delete(i.id);
-      }
-      await this.questionRepository.destroy({
-        where: { test_group_id: test_group },
-      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }

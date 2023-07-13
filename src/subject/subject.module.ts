@@ -11,7 +11,6 @@ import { TestGroupModule } from 'src/test-group/test-group.module';
 @Module({
   imports: [
     SequelizeModule.forFeature([Subject, Staff, StaffSubject]),
-    TestGroupModule,
     JwtModule.register({}),
   ],
   controllers: [SubjectController],

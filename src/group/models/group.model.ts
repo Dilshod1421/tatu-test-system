@@ -40,6 +40,9 @@ export class Group extends Model<Group, GroupAttributes> {
   @BelongsToMany(() => Staff, () => StaffGroup)
   staffs: Staff[];
 
-  @HasMany(() => Student)
+  @HasMany(() => Student, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   students: Student[];
 }

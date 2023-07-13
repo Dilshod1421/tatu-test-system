@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { Answer } from 'src/answer/models/answer.model';
 import { TestGroup } from 'src/test-group/models/test-group.model';
+import { TestResult } from 'src/test-result/models/test-result.model';
 
 interface QuestionAttributes {
   question: string;
@@ -39,6 +40,15 @@ export class Question extends Model<Question, QuestionAttributes> {
   @BelongsTo(() => TestGroup)
   test_group: TestGroup;
 
-  @HasMany(() => Answer)
+  @HasMany(() => Answer, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   answers: Answer[];
+
+  @HasMany(()=> TestResult, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
+  test_results: TestResult[];
 }

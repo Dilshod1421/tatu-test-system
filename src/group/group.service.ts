@@ -112,11 +112,8 @@ export class GroupService {
 
   async remove(id: number): Promise<object> {
     try {
-      const group = await this.groupRepository.findByPk(id);
-      if (!group) {
-        throw new BadRequestException('Guruh topilmadi!');
-      }
-      await this.groupRepository.destroy({ where: { id } });
+      const group = await this.findById(id);
+      group.destroy();
       return { message: "Guruh ro'yxatdan o'chirildi", group };
     } catch (error) {
       throw new BadRequestException(error.message);

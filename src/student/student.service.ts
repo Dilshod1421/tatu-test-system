@@ -287,11 +287,8 @@ export class StudentService {
 
   async remove(id: string): Promise<object> {
     try {
-      const student = await this.studentRepository.findOne({ where: { id } });
-      if (!student) {
-        throw new BadRequestException('Talaba topilmadi!');
-      }
-      await this.studentRepository.destroy({ where: { id } });
+      const student = await this.findById(id);
+      student.destroy();
       return { message: "Talaba ro'yxatdan o'chirildi" };
     } catch (error) {
       throw new BadRequestException(error.message);

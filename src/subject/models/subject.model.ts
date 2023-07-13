@@ -32,6 +32,9 @@ export class Subject extends Model<Subject, SubjectAttributes> {
   @BelongsToMany(() => Staff, () => StaffSubject)
   staffs: Staff[];
 
-  @HasMany(() => TestGroup)
+  @HasMany(() => TestGroup, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   tests: TestGroup[];
 }

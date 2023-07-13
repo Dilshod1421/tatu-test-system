@@ -57,6 +57,9 @@ export class TestTime extends Model<TestTime, TestTimeAttributes> {
   @BelongsTo(() => TestGroup)
   test_group: TestGroup;
 
-  @HasMany(() => TestResult)
+  @HasMany(() => TestResult, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_results: TestResult[];
 }

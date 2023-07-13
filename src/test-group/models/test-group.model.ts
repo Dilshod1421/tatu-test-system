@@ -48,12 +48,21 @@ export class TestGroup extends Model<TestGroup, TestGroupAttributes> {
   @BelongsTo(() => Subject)
   subject: Subject;
 
-  @HasMany(() => Question)
+  @HasMany(() => Question, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   questions: Question[];
 
-  @HasMany(() => TestResult)
+  @HasMany(() => TestResult, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_results: TestResult[];
 
-  @HasMany(() => TestTime)
+  @HasMany(() => TestTime, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_times: TestTime[];
 }

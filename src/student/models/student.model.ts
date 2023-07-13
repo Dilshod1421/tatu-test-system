@@ -92,12 +92,21 @@ export class Student extends Model<Student, StudentsAttributes> {
   @BelongsTo(() => Group)
   group: Group;
 
-  @HasMany(() => TestResult)
+  @HasMany(() => TestResult, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_results: TestResult[];
 
-  @HasMany(() => TestSubmit)
+  @HasMany(() => TestSubmit, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_submits: TestSubmit[];
 
-  @HasMany(() => TestTime)
+  @HasMany(() => TestTime, {
+    onDelete: 'CASCADE',
+    hooks: true,
+  })
   test_times: TestTime[];
 }

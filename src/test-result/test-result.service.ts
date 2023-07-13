@@ -120,18 +120,4 @@ export class TestResultService {
       throw new BadRequestException(error.message);
     }
   }
-
-  async delete(question_id: number): Promise<void> {
-    try {
-      const test_result = await this.testResultRepository.findAll({
-        where: { question_id },
-      });
-      if (!test_result.length) {
-        throw new BadRequestException('Test natijasi topilmadi!');
-      }
-      await this.testResultRepository.destroy({ where: { question_id } });
-    } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
 }

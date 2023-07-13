@@ -22,6 +22,5 @@ import { TestTime } from 'src/test-time/models/test-time.model';
   ],
   controllers: [TestResultController],
   providers: [TestResultService],
-  exports: [TestResultService],
 })
 export class TestResultModule {}

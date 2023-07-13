@@ -14,6 +14,5 @@ import { JwtModule } from '@nestjs/jwt';
   ],
   controllers: [TestSubmitController],
   providers: [TestSubmitService],
-  exports: [TestSubmitService],
 })
 export class TestSubmitModule {}
